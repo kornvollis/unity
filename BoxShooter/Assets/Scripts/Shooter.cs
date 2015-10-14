@@ -9,10 +9,18 @@ public class Shooter : MonoBehaviour {
 	
 	// Reference to AudioClip to play
 	public AudioClip shootSFX;
-	
+	public AudioClip clipOut;
+	public GameObject weapon;
+
 	// Update is called once per frame
 	void Update () {
 		// Detect if fire button is pressed
+
+		if(Input.GetKeyDown(KeyCode.R)) {
+			weapon.gameObject.GetComponent<Animator> ().SetTrigger ("Reload");
+			AudioSource.PlayClipAtPoint (clipOut, gameObject.transform.position);
+		}
+
 		if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
 		{	
 			// if projectile is specified
@@ -32,6 +40,8 @@ public class Shooter : MonoBehaviour {
 				// play sound effect if set
 				if (shootSFX)
 				{
+					weapon.gameObject.GetComponent<Animator> ().SetTrigger ("Fire");
+
 					if (newProjectile.GetComponent<AudioSource> ()) { // the projectile has an AudioSource component
 						// play the sound clip through the AudioSource component on the gameobject.
 						// note: The audio will travel with the gameobject.
